@@ -39,8 +39,3 @@
 - 相關文章：[巴哈姆特攻略文](https://forum.gamer.com.tw/C.php?bsn=16430&snA=5203)
 
 ---
-
-## 🖼️ 頁面預覽
-（你可以稍後上傳一張截圖命名為 `preview.png`）
-```markdown
-![Mstar 情侶衝等價錢計算器 預覽圖](preview.png)
