@@ -9,7 +9,7 @@
     font-family: "Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans TC", sans-serif;
     background: linear-gradient(145deg, #0e1015, #1b1f26);
     color: #e0e0e0;
-    padding: 20px;
+    padding: 18px;
     max-width: 520px;
     margin: auto;
   }
@@ -26,46 +26,69 @@
     border-radius: 10px;
     padding: 10px 14px;
     font-size: 14px;
-    line-height: 1.7;
+    line-height: 1.6;
     color: #cfe1f7;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
-  .note span { display: block; margin-bottom: 4px; }
-  .note .title { color: #ffd54f; font-weight: 700; margin-bottom: 6px; }
+  .note span { display: block; margin-bottom: 3px; }
+  .note .title { color: #ffd54f; font-weight: 700; margin-bottom: 4px; }
+
   .group {
-    margin-top: 14px;
-    padding: 12px;
+    margin-top: 8px;
+    padding: 10px;
     border:1px solid #2a2f3a;
-    border-radius: 12px;
+    border-radius: 10px;
     background:#1a1f28;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
   }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  @media (max-width:520px){ .row { grid-template-columns: 1fr; } }
-  label {
-    font-weight: 700; font-size: 14px; display:block; margin-bottom:6px; color:#cfe1f7;
+
+  /* 緊湊版欄位排列 */
+  .field-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 6px 0;
   }
-  select, input[type=number] {
-    width:100%; padding: 10px 12px; font-size: 16px;
-    border-radius: 8px; border:1px solid #3a404c;
-    background:#0f1320; color:#e0e0e0;
+
+  .field-row label {
+    flex: 0 0 80px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+    color:#cfe1f7;
+  }
+
+  .field-row select, .field-row input {
+    flex: 1;
+    font-size: 15px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border:1px solid #3a404c;
+    background:#0f1320;
+    color:#e0e0e0;
     outline:none;
     transition: border 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
   }
+
   select:focus, input:focus {
     border-color:#64b5f6; box-shadow:0 0 5px #64b5f6;
   }
+
   button {
-    width:100%; margin-top:20px; padding: 14px;
-    font-size:18px; font-weight:700; border:0; border-radius: 12px;
+    width:100%; margin-top:14px; padding: 12px;
+    font-size:17px; font-weight:700; border:0; border-radius: 10px;
     background: linear-gradient(90deg, #3b82f6, #2563eb);
     color:#fff; cursor:pointer; transition: transform 0.1s, box-shadow 0.2s;
   }
-  button:hover { transform:scale(1.02); box-shadow:0 0 10px rgba(59,130,246,0.5); }
+  button:hover { transform:scale(1.02); box-shadow:0 0 8px rgba(59,130,246,0.5); }
+
   .result {
-    margin-top: 18px;
-    padding: 14px;
-    border-radius:12px;
+    margin-top: 16px;
+    padding: 12px;
+    border-radius:10px;
     background:#0f1320;
     border:1px solid #2a2f3a;
     opacity: 0;
@@ -80,17 +103,17 @@
     display:flex;
     justify-content:space-between;
     gap:12px;
-    font-size: 16px;
+    font-size: 15px;
     margin: 4px 0;
   }
   .highlight {
     color: #ffd54f;
     font-weight: 700;
-    text-shadow: 0 0 5px rgba(255, 213, 79, 0.6);
+    text-shadow: 0 0 4px rgba(255, 213, 79, 0.5);
   }
   .footer {
     text-align: center;
-    margin-top: 28px;
+    margin-top: 20px;
     font-size: 14px;
     color: #9fb3c8;
     line-height: 1.7;
@@ -99,12 +122,18 @@
     color: #64b5f6;
     text-decoration: none;
     border-bottom: 1px dashed #64b5f6;
-    transition: color 0.2s, text-shadow 0.2s, border-color 0.2s;
   }
   .footer a:hover {
     color: #82b1ff;
-    text-shadow: 0 0 6px #64b5f6;
-    border-color: #82b1ff;
+    text-shadow: 0 0 5px #64b5f6;
+  }
+
+  /* 手機緊湊排版 */
+  @media (max-width:520px){
+    body { padding: 10px; }
+    .field-row label { flex: 0 0 70px; font-size: 12px; }
+    .field-row select, .field-row input { font-size: 14px; padding: 6px 8px; }
+    button { font-size:15px; padding:10px; }
   }
 </style>
 </head>
@@ -113,59 +142,57 @@
 
   <div class="note">
     <div class="title">🍊 小提醒：</div>
-    <span>🌸 第一季送水果最划算，可回收７成價格</span>
-    <span>⚠️ 花類約５成，柳橙、柿子、小番茄回收僅６成</span>
+    <span>🌸 送第一季水果最划算，可回收７成價格</span>
+    <span>⚠️ 花類５成，柳橙、柿子、小番茄６成</span>
   </div>
 
   <section class="group">
-    <label for="fruitPrice">水果價位</label>
-    <select id="fruitPrice">
-      <option value="0">不計算水果</option>
-      <option value="3500">3,500</option>
-      <option value="9500">9,500</option>
-      <option value="16500">16,500</option>
-      <option value="29500" selected>29,500</option>
-    </select>
-    <p style="color:#9fb3c8; font-size:13px; margin-top:6px;">※ 水果可回收 70% M幣</p>
+    <div class="field-row">
+      <label for="fruitPrice">水果價位</label>
+      <select id="fruitPrice">
+        <option value="0">不計算水果</option>
+        <option value="3500">3,500</option>
+        <option value="9500">9,500</option>
+        <option value="16500">16,500</option>
+        <option value="29500" selected>29,500</option>
+      </select>
+    </div>
+    <p style="color:#9fb3c8; font-size:12px; margin-top:4px;">※ 水果可回收 70% M幣</p>
   </section>
 
   <section class="group">
-    <div class="row">
-      <div>
-        <label for="currentMode">當前輸入模式</label>
-        <select id="currentMode">
-          <option value="level">等級</option>
-          <option value="exp">經驗值</option>
-        </select>
-      </div>
-      <div id="currentLevelWrap">
-        <label for="currentLevel">當前等級</label>
-        <select id="currentLevel"></select>
-      </div>
-      <div id="currentExpWrap" style="display:none">
-        <label for="currentExp">當前經驗值</label>
-        <input type="number" id="currentExp" inputmode="numeric">
-      </div>
+    <div class="field-row">
+      <label for="currentMode">當前</label>
+      <select id="currentMode">
+        <option value="level">等級</option>
+        <option value="exp">經驗值</option>
+      </select>
+    </div>
+    <div id="currentLevelWrap" class="field-row">
+      <label for="currentLevel">當前等級</label>
+      <select id="currentLevel"></select>
+    </div>
+    <div id="currentExpWrap" class="field-row" style="display:none">
+      <label for="currentExp">當前經驗值</label>
+      <input type="number" id="currentExp" inputmode="numeric">
     </div>
   </section>
 
   <section class="group">
-    <div class="row">
-      <div>
-        <label for="targetMode">目標輸入模式</label>
-        <select id="targetMode">
-          <option value="level">等級</option>
-          <option value="exp">經驗值</option>
-        </select>
-      </div>
-      <div id="targetLevelWrap">
-        <label for="targetLevel">目標等級</label>
-        <select id="targetLevel"></select>
-      </div>
-      <div id="targetExpWrap" style="display:none">
-        <label for="targetExp">目標經驗值</label>
-        <input type="number" id="targetExp" inputmode="numeric">
-      </div>
+    <div class="field-row">
+      <label for="targetMode">目標</label>
+      <select id="targetMode">
+        <option value="level">等級</option>
+        <option value="exp">經驗值</option>
+      </select>
+    </div>
+    <div id="targetLevelWrap" class="field-row">
+      <label for="targetLevel">目標等級</label>
+      <select id="targetLevel"></select>
+    </div>
+    <div id="targetExpWrap" class="field-row" style="display:none">
+      <label for="targetExp">目標經驗值</label>
+      <input type="number" id="targetExp" inputmode="numeric">
     </div>
   </section>
 
@@ -193,8 +220,8 @@ res=$("#result");
 for(let i=1;i<=20;i++){curLv.add(new Option("Lv."+i,i));tgtLv.add(new Option("Lv."+i,i));}
 curLv.value="1";tgtLv.value="20";
 
-curMode.onchange=()=>{curWrap.style.display=curMode.value==="level"?"":"none";curExpWrap.style.display=curMode.value==="exp"?"":"none";res.classList.remove("show");}
-tgtMode.onchange=()=>{tgtWrap.style.display=tgtMode.value==="level"?"":"none";tgtExpWrap.style.display=tgtMode.value==="exp"?"":"none";res.classList.remove("show");}
+curMode.onchange=()=>{curWrap.style.display=curMode.value==="level"?"flex":"none";curExpWrap.style.display=curMode.value==="exp"?"flex":"none";res.classList.remove("show");}
+tgtMode.onchange=()=>{tgtWrap.style.display=tgtMode.value==="level"?"flex":"none";tgtExpWrap.style.display=tgtMode.value==="exp"?"flex":"none";res.classList.remove("show");}
 
 $("#calcBtn").onclick=()=>{
   let curTotal,tgtTotal;
@@ -214,7 +241,7 @@ $("#calcBtn").onclick=()=>{
     const needCount=Math.ceil(needM/fPrice);
     const gross=needCount*fPrice;
     const net=Math.round(gross*0.3);
-    output+=`<hr style='border:0;border-top:1px solid #333;margin:8px 0;'>
+    output+=`<hr style='border:0;border-top:1px solid #333;margin:6px 0;'>
       <div class='stat'><span>需購買數量：</span><b class='highlight' id='cCount'>0</b></div>
       <div class='stat'><span>總購買 M 幣（回收前）：</span><b>${fmt(gross)}</b></div>
       <div class='stat'><span>水果回收後實際花費：</span><b class='highlight' id='cCost'>0</b></div>`;
@@ -242,4 +269,3 @@ function animateNumber(id,target){
 </script>
 </body>
 </html>
-
