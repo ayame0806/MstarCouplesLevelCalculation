@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>情侶衝等價錢計算器</title>
+<style>
+  body {
+    font-family: "Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans TC", sans-serif;
+    background: linear-gradient(145deg, #0e1015, #1b1f26);
+    color: #e0e0e0;
+    padding: 20px;
+    max-width: 520px;
+    margin: auto;
+  }
+  h1 {
+    text-align: center;
+    background: linear-gradient(90deg, #64b5f6, #82b1ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+  }
+  .note {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid #2a2f3a;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #cfe1f7;
+    margin-bottom: 14px;
+  }
+  .note span { display: block; margin-bottom: 4px; }
+  .note .title { color: #ffd54f; font-weight: 700; margin-bottom: 6px; }
+  .group {
+    margin-top: 14px;
+    padding: 12px;
+    border:1px solid #2a2f3a;
+    border-radius: 12px;
+    background:#1a1f28;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width:520px){ .row { grid-template-columns: 1fr; } }
+  label {
+    font-weight: 700; font-size: 14px; display:block; margin-bottom:6px; color:#cfe1f7;
+  }
+  select, input[type=number] {
+    width:100%; padding: 10px 12px; font-size: 16px;
+    border-radius: 8px; border:1px solid #3a404c;
+    background:#0f1320; color:#e0e0e0;
+    outline:none;
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+  select:focus, input:focus {
+    border-color:#64b5f6; box-shadow:0 0 5px #64b5f6;
+  }
+  button {
+    width:100%; margin-top:20px; padding: 14px;
+    font-size:18px; font-weight:700; border:0; border-radius: 12px;
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+    color:#fff; cursor:pointer; transition: transform 0.1s, box-shadow 0.2s;
+  }
+  button:hover { transform:scale(1.02); box-shadow:0 0 10px rgba(59,130,246,0.5); }
+  .result {
+    margin-top: 18px;
+    padding: 14px;
+    border-radius:12px;
+    background:#0f1320;
+    border:1px solid #2a2f3a;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .result.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .stat {
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size: 16px;
+    margin: 4px 0;
+  }
+  .highlight {
+    color: #ffd54f;
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(255, 213, 79, 0.6);
+  }
+  .footer {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 14px;
+    color: #9fb3c8;
+    line-height: 1.7;
+  }
+  .footer a {
+    color: #64b5f6;
+    text-decoration: none;
+    border-bottom: 1px dashed #64b5f6;
+    transition: color 0.2s, text-shadow 0.2s, border-color 0.2s;
+  }
+  .footer a:hover {
+    color: #82b1ff;
+    text-shadow: 0 0 6px #64b5f6;
+    border-color: #82b1ff;
+  }
+</style>
+</head>
+<body>
+  <h1>情侶衝等價錢計算器</h1>
+
+  <div class="note">
+    <div class="title">🍊 小提醒：</div>
+    <span>🌸 第一季送水果最划算，可回收７成價格</span>
+    <span>⚠️ 花類約５成，柳橙、柿子、小番茄回收僅６成</span>
+  </div>
+
+  <section class="group">
+    <label for="fruitPrice">水果價位</label>
+    <select id="fruitPrice">
+      <option value="0">不計算水果</option>
+      <option value="3500">3,500</option>
+      <option value="9500">9,500</option>
+      <option value="16500">16,500</option>
+      <option value="29500" selected>29,500</option>
+    </select>
+    <p style="color:#9fb3c8; font-size:13px; margin-top:6px;">※ 水果可回收 70%，實際出為總購買 M 幣的 30%。</p>
+  </section>
+
+  <section class="group">
+    <div class="row">
+      <div>
+        <label for="currentMode">當前輸入模式</label>
+        <select id="currentMode">
+          <option value="level">等級</option>
+          <option value="exp">經驗值</option>
+        </select>
+      </div>
+      <div id="currentLevelWrap">
+        <label for="currentLevel">當前等級</label>
+        <select id="currentLevel"></select>
+      </div>
+      <div id="currentExpWrap" style="display:none">
+        <label for="currentExp">當前經驗值</label>
+        <input type="number" id="currentExp" inputmode="numeric">
+      </div>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="row">
+      <div>
+        <label for="targetMode">目標輸入模式</label>
+        <select id="targetMode">
+          <option value="level">等級</option>
+          <option value="exp">經驗值</option>
+        </select>
+      </div>
+      <div id="targetLevelWrap">
+        <label for="targetLevel">目標等級</label>
+        <select id="targetLevel"></select>
+      </div>
+      <div id="targetExpWrap" style="display:none">
+        <label for="targetExp">目標經驗值</label>
+        <input type="number" id="targetExp" inputmode="numeric">
+      </div>
+    </div>
+  </section>
+
+  <button id="calcBtn">計算</button>
+  <div id="result" class="result"></div>
+
+  <div class="footer">
+    <div>👤 作者：<span style="color:#ffd54f;">猿飛菖蒲</span></div>
+    <div>🔗 相關文章：
+      <a href="https://forum.gamer.com.tw/C.php?bsn=16430&snA=5203" target="_blank" rel="noopener noreferrer">前往巴哈姆特攻略文</a>
+    </div>
+  </div>
+
+<script>
+const totalExp={1:0,2:700,3:2800,4:7700,5:18200,6:39900,7:84000,8:172900,9:351400,10:709100,11:1084817,12:1478542,13:1898542,14:2348542,15:2768542,16:3306346,17:3907096,18:4627096,19:5707096,20:7260460};
+const $=s=>document.querySelector(s);
+const fmt=n=>Number(n).toLocaleString("en-US",{maximumFractionDigits:0});
+const curMode=$("#currentMode"),tgtMode=$("#targetMode"),fruit=$("#fruitPrice"),
+curLv=$("#currentLevel"),tgtLv=$("#targetLevel"),
+curExp=$("#currentExp"),tgtExp=$("#targetExp"),
+curWrap=$("#currentLevelWrap"),curExpWrap=$("#currentExpWrap"),
+tgtWrap=$("#targetLevelWrap"),tgtExpWrap=$("#targetExpWrap"),
+res=$("#result");
+
+for(let i=1;i<=20;i++){curLv.add(new Option("Lv."+i,i));tgtLv.add(new Option("Lv."+i,i));}
+curLv.value="1";tgtLv.value="20";
+
+curMode.onchange=()=>{curWrap.style.display=curMode.value==="level"?"":"none";curExpWrap.style.display=curMode.value==="exp"?"":"none";res.classList.remove("show");}
+tgtMode.onchange=()=>{tgtWrap.style.display=tgtMode.value==="level"?"":"none";tgtExpWrap.style.display=tgtMode.value==="exp"?"":"none";res.classList.remove("show");}
+
+$("#calcBtn").onclick=()=>{
+  let curTotal,tgtTotal;
+  if(curMode.value==="level")curTotal=totalExp[curLv.value];
+  else{curTotal=parseInt(curExp.value);if(isNaN(curTotal))return res.innerHTML="請輸入有效的當前經驗";}
+  if(tgtMode.value==="level")tgtTotal=totalExp[tgtLv.value];
+  else{tgtTotal=parseInt(tgtExp.value);if(isNaN(tgtTotal))return res.innerHTML="請輸入有效的目標經驗";}
+  if(tgtTotal<=curTotal)return res.innerHTML="⚠️ 目標經驗必須大於當前經驗！";
+
+  const needExp=tgtTotal-curTotal;
+  const needM=needExp*20;
+  const fPrice=parseInt(fruit.value);
+  let output=`<div class='stat'><span>需要總經驗：</span><b>${fmt(needExp)}</b></div>
+              <div class='stat'><span>需要 M 幣：</span><b>${fmt(needM)}</b></div>`;
+
+  if(fPrice>0){
+    const needCount=Math.ceil(needM/fPrice);
+    const gross=needCount*fPrice;
+    const net=Math.round(gross*0.3);
+    output+=`<hr style='border:0;border-top:1px solid #333;margin:8px 0;'>
+      <div class='stat'><span>需購買數量：</span><b class='highlight' id='cCount'>0</b></div>
+      <div class='stat'><span>總購買 M 幣（回收前）：</span><b>${fmt(gross)}</b></div>
+      <div class='stat'><span>水果回收後實際花費：</span><b class='highlight' id='cCost'>0</b></div>`;
+    res.innerHTML=output;
+    setTimeout(()=>{
+      animateNumber("cCount",needCount);
+      animateNumber("cCost",net);
+    },60);
+  } else {
+    res.innerHTML=output;
+  }
+  setTimeout(()=>res.classList.add("show"),10);
+};
+
+function animateNumber(id,target){
+  const el=document.getElementById(id);
+  if(!el) return;
+  let cur=0,step=Math.ceil(target/30);
+  const timer=setInterval(()=>{
+    cur+=step;
+    if(cur>=target){cur=target;clearInterval(timer);}
+    el.textContent=fmt(cur);
+  },20);
+}
+</script>
+</body>
+</html>
