@@ -1,5 +1,4 @@
 # 💖 情侶衝等價錢計算器  
-> *Mstar Couples Level Calculation Tool*
 
 ---
 
