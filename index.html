@@ -42,7 +42,6 @@
     box-shadow: 0 1px 4px rgba(0,0,0,0.3);
   }
 
-  /* 緊湊版欄位排列 */
   .field-row {
     display: flex;
     align-items: center;
@@ -128,7 +127,6 @@
     text-shadow: 0 0 5px #64b5f6;
   }
 
-  /* 手機緊湊排版 */
   @media (max-width:520px){
     body { padding: 10px; }
     .field-row label { flex: 0 0 70px; font-size: 12px; }
@@ -203,7 +201,11 @@
   </div>
 
 <script>
-const totalExp={1:0,2:700,3:2800,4:7700,5:18200,6:39900,7:84000,8:172900,9:351400,10:709100,11:1084817,12:1478542,13:1898542,14:2348542,15:2768542,16:3306346,17:3907096,18:4627096,19:5707096,20:7260460};
+const totalExp = {
+1:0,2:700,3:2800,4:7700,5:18200,6:39900,7:84000,8:172900,9:351400,10:709100,
+11:1084817,12:1478542,13:1898542,14:2348542,15:2768542,16:3306346,17:3907096,18:4627096,19:5707096,20:7260460,
+21:9245534,22:11826130,23:15180905,24:19542113,25:25211683,26:32582124,27:42163697,28:54619742,29:70812601,30:91863317
+};
 const $=s=>document.querySelector(s);
 const fmt=n=>Number(n).toLocaleString("en-US",{maximumFractionDigits:0});
 const curMode=$("#currentMode"),tgtMode=$("#targetMode"),fruit=$("#fruitPrice"),
@@ -213,8 +215,8 @@ curWrap=$("#currentLevelWrap"),curExpWrap=$("#currentExpWrap"),
 tgtWrap=$("#targetLevelWrap"),tgtExpWrap=$("#targetExpWrap"),
 res=$("#result");
 
-for(let i=1;i<=20;i++){curLv.add(new Option("Lv."+i,i));tgtLv.add(new Option("Lv."+i,i));}
-curLv.value="1";tgtLv.value="20";
+for(let i=1;i<=30;i++){curLv.add(new Option("Lv."+i,i));tgtLv.add(new Option("Lv."+i,i));}
+curLv.value="1";tgtLv.value="30";
 
 curMode.onchange=()=>{curWrap.style.display=curMode.value==="level"?"flex":"none";curExpWrap.style.display=curMode.value==="exp"?"flex":"none";res.classList.remove("show");}
 tgtMode.onchange=()=>{tgtWrap.style.display=tgtMode.value==="level"?"flex":"none";tgtExpWrap.style.display=tgtMode.value==="exp"?"flex":"none";res.classList.remove("show");}
